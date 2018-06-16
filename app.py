@@ -4,10 +4,9 @@ from classifier import classify
 from page import preprocess, get_bbox, merge, sort_bbox, resize
 
 
-def main():
-    filename = 'classifyAZ'
-    print('processing image')
-    page = preprocess(filename + '.jpg') # read in, clean image
+def main(filename):
+    print('Processing image...')
+    page = preprocess(filename) # read in, clean image
     bboxes = get_bbox(page)  # get expanded bounding boxes around characters
     bboxes = merge(bboxes)  # merge expanded bounding boxes
     bboxes = sort_bbox(bboxes)  # sort characters to order that you'd read them in
@@ -17,7 +16,7 @@ def main():
     # width (2nd) and height (3rd) dimension.
     characters = np.reshape(characters, (len(characters), -1))
 
-    print('classifying characters')
+    print('Classifying characters...')
     # Return classified images as a string of ASCII characters.
     predictions = classify(characters)
     letters = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
@@ -25,11 +24,12 @@ def main():
     for pred in predictions:
         text.append(letters[int(pred)])
     text = ''.join(text)
-    print('writing to file')
+    print('Writing to file...')
     # Write out to file
-    f = open(filename + '.txt'.format(filename), 'w+')
+    base_filename = filename.split('.')[0]
+    f = open('{}.txt'.format(base_filename), 'w+')
     f.write(text)
     f.close()
 
 
-main()
+main('classifyAZ.jpg')
