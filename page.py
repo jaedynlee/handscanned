@@ -122,7 +122,7 @@ def resize(page, bboxes):
     """
     Take the characters outlined by each merged bounding box and resize to
     20x20 with 8 total pixels of vertical and horizontal padding
-    
+
     :return: a list of flattened character images
     """
     char_dimension = 20.0
@@ -172,8 +172,6 @@ def resize(page, bboxes):
         character[character > 170] = 255
         # Save to array
         characters = character if characters == [] else np.vstack((characters, character))
-        # Save to file
-        io.imsave('../characters/classifyAZ_'+str(count) + '.jpg', img_as_uint(character_sized))
         count = count + 1
     print('Identified ' + str(count) + ' characters.')
     return characters
